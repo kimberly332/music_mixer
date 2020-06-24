@@ -49,6 +49,8 @@
       // assign placeholderID to data-phref=""
       droppedImg.dataset.phref = placeholderID;
       loadAndPlay(droppedImgID, parseInt(placeholderID));
+
+      // droppedImg.classList.toggle("boucing-img");
     }
     // image dops back to original places => pause
     else {
@@ -89,6 +91,7 @@
   //     // play the audio track
   //     audio.play(); // round brackets means it's a method (a built-in function)
   // }
+  //
 
 
   // direction 1: drag music piece to drop zone
