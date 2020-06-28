@@ -38,27 +38,35 @@
     // node = <img id="img0" data-trackref="singer-1.mp3" data-phref="" src="images/singer-1.svg" alt="Male Signer Icon" height="100" width="100">
     let droppedImg = document.querySelector(`#${droppedImgID}`);
 
-    // append the image pieces
-    event.target.appendChild(document.querySelector(`#${droppedImgID}`));
-
     // check where the image is dropped
     // image drops to dropzone => play
     if (this.className == "placeholder"){
       let placeholderID = this.id;
 
-      // assign placeholderID to data-phref=""
-      droppedImg.dataset.phref = placeholderID;
-      loadAndPlay(droppedImgID, parseInt(placeholderID));
-
-      // droppedImg.classList.toggle("boucing-img");
+      if (this.childElementCount > 0){ // there is already a music here
+        console.log("there is already a music, so cannot drop!!!");
+		  }
+      else { // no music => can drop here
+        // append the music pieces
+			  event.target.appendChild(document.querySelector(`#${droppedImgID}`));
+        // assign placeholderID to data-phref=""
+        droppedImg.dataset.phref = placeholderID;
+        loadAndPlay(droppedImgID, parseInt(placeholderID));
+		  }
     }
     // image dops back to original places => pause
     else {
       let placeholderID = droppedImg.dataset.phref;
-
-      // assign track's data-phref to empty
-      droppedImg.dataset.phref = "";
-      pasue(droppedImgID, parseInt(placeholderID));
+      if (this.childElementCount > 0){ // there is already a music here
+        console.log("there is already a music, so cannot drop!!!");
+		  }
+      else { // no music => can drop here
+        // append the music pieces
+			  event.target.appendChild(document.querySelector(`#${droppedImgID}`));
+        // assign track's data-phref to empty
+        droppedImg.dataset.phref = "";
+        pasue(droppedImgID, parseInt(placeholderID));
+		  }
     }
   }
 
@@ -71,7 +79,7 @@
 
 
   function loadAndPlay(droppedImgID, placeholderID) {
-      console.log("load and play audio here");
+      // console.log("load and play audio here");
 
       // get the image node by id
       let img = document.querySelector(`#${droppedImgID}`);
