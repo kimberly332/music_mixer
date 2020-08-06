@@ -1,7 +1,8 @@
 (() => {
 
   const musicPieces = document.querySelectorAll(".choices"), // music pieces
-        dropZones = document.querySelectorAll(".placeholder"); // drop zone
+        dropZones = document.querySelectorAll(".placeholder"), // drop zone
+        resetButton = document.querySelector(".resetBtn");   // reset button
 
   // get all audio tracks:
   // each audio track index maps to a placeholder id
@@ -9,7 +10,12 @@
   // eg. a1 index 0 => placeholder id 0
   let audios = document.querySelectorAll("audio");
 
-  //let audio = document.querySelector("audio");
+  // contain an array of placeholder id for which music is on
+  let displayingZones = [];
+
+  // an array of all 20 images in order.
+  // this records the initial order of images
+  let allImages = document.querySelectorAll(".images");
 
 
   function allowDrag(event) {
@@ -33,7 +39,7 @@
 
     // first get dragged music piece ID
     let droppedImgID= event.dataTransfer.getData("draggedImg");
-
+    // console.log(droppedImgID);
     // then get dragged music piece node by ID
     // node = <img id="img0" data-trackref="singer-1.mp3" data-phref="" src="images/singer-1.svg" alt="Male Signer Icon" height="100" width="100">
     let droppedImg = document.querySelector(`#${droppedImgID}`);
@@ -54,7 +60,7 @@
         loadAndPlay(droppedImgID, parseInt(placeholderID));
 		  }
     }
-    // image dops back to original places => pause
+    // image drops back to original places => pause
     else {
       let placeholderID = droppedImg.dataset.phref;
       if (this.childElementCount > 0){ // there is already a music here
@@ -75,11 +81,17 @@
     console.log("pause here");
     audios[placeholderID].pause();
     audios[placeholderID].currenttime = 0;
+
+    // update displayingZones => remove
+    displayingZones.splice(displayingZones.indexOf(placeholderID.toString()), 1);
   }
 
 
   function loadAndPlay(droppedImgID, placeholderID) {
-      // console.log("load and play audio here");
+      console.log("load and play audio here");
+
+      // update displayingZones => add
+      displayingZones.push(placeholderID.toString());
 
       // get the image node by id
       let img = document.querySelector(`#${droppedImgID}`);
@@ -91,15 +103,37 @@
       audios[placeholderID].load();
 
       // play aduio
-      audios[placeholderID].play();
+      // here we need replay all the audios
+      displayingZones.forEach(ID => {
+        audios[ID].currentTime = 0;
+        audios[ID].play();
+      });
   }
 
 
-  // function playAudio() {
-  //     // play the audio track
-  //     audio.play(); // round brackets means it's a method (a built-in function)
-  // }
-  //
+  function reset(){
+    console.log("reset!!!!");
+
+    // stop the music
+    audios.forEach(audio => audio.src = "");
+
+    // remove from the drop zone
+    dropZones.forEach(zone => {
+      if (zone.firstChild) {
+        zone.removeChild(zone.firstChild);
+      }
+    });
+
+    // reset all music pieces
+    musicPieces.forEach((piece, index) => {
+      if (piece.childElementCount == 0) {
+        piece.appendChild(allImages[index]);
+      }
+    });
+
+    // reset displayingZones
+    displayingZones = []
+  }
 
 
   // direction 1: drag music piece to drop zone
@@ -109,11 +143,14 @@
     piece.addEventListener('dragover', allowDragOver); // direction 2
     piece.addEventListener('drop', allowDrop);         // direction 2
   }
-
   for (let zone of dropZones) {
     zone.addEventListener('dragstart', allowDrag);    // direction 2
     zone.addEventListener('dragover', allowDragOver); // direction 1
     zone.addEventListener('drop', allowDrop);         // direction 1
   }
+
+
+  // reset button
+  resetButton.addEventListener('click', reset);
 
 })();
