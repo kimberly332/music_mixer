@@ -160,27 +160,6 @@ body {
 	border-bottom: 5px solid #FC9696;
 }
 
-/* Bouncing Balls Animation */
-/* @keyframes bounce {
-	10% {
-		height: 50px;
-		width: 50px;
-	}
-
-	30% {
-		height: 50px
-	}
-	50% {
-		height: 30px;
-		width: 57px;
-		transform: translateY(240px);
-	}
-}
-
-.boucing-img {
-	animation: bounce 0.9s infinite;
-} */
-
 #choicesContainer {
 	height: 355px;
 	text-align: center;
