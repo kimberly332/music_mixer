@@ -51,28 +51,28 @@
 
       if (this.childElementCount > 0){ // there is already a music here
         console.log("there is already a music, so cannot drop!!!");
-		  }
+      }
       else { // no music => can drop here
         // append the music pieces
-			  event.target.appendChild(document.querySelector(`#${droppedImgID}`));
+        event.target.appendChild(document.querySelector(`#${droppedImgID}`));
         // assign placeholderID to data-phref=""
         droppedImg.dataset.phref = placeholderID;
         loadAndPlay(droppedImgID, parseInt(placeholderID));
-		  }
+      }
     }
     // image drops back to original places => pause
     else {
       let placeholderID = droppedImg.dataset.phref;
       if (this.childElementCount > 0){ // there is already a music here
         console.log("there is already a music, so cannot drop!!!");
-		  }
+      }
       else { // no music => can drop here
         // append the music pieces
-			  event.target.appendChild(document.querySelector(`#${droppedImgID}`));
+        event.target.appendChild(document.querySelector(`#${droppedImgID}`));
         // assign track's data-phref to empty
         droppedImg.dataset.phref = "";
         pasue(droppedImgID, parseInt(placeholderID));
-		  }
+      }
     }
   }
 
